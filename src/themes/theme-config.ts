@@ -16,6 +16,12 @@ declare module "@mui/material/Switch" {
   }
 }
 
+declare module "@mui/material/Checkbox" {
+  interface CheckboxPropsColorOverrides {
+    violet: true;
+  }
+}
+
 declare module "@mui/material/Button" {
   interface ButtonPropsColorOverrides {
     violet: true;

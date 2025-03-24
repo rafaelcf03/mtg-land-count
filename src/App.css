@@ -36,15 +36,20 @@
 
 .main-body {
   margin: 0 auto;
-  height: max-content;
-  background-color: whitesmoke;
-  padding: 1rem 3rem;
+  height: auto;
+  width: auto;
+  border: solid 3px #7f00ff;
+  border-radius: 2rem;
+  background-color: white;
+  padding: 2rem 3rem;
 }
 
 .form {
   display: flex;
   flex-direction: column;
-  gap: 1em;
+  gap: 1rem;
+
+  /* justify-self: center; */
 }
 
 .switch-label {
@@ -54,8 +59,22 @@
   justify-content: space-between;
 }
 
+.decklist-label {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.decklist-section {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+}
+
 .text {
   font-weight: 500;
+  margin: 0;
 }
 
 .div-header {
