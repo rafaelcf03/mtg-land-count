@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { useForm, SubmitHandler, Controller } from "react-hook-form";
 import {
   Button,
@@ -7,56 +8,34 @@ import {
   TextField,
   ThemeProvider,
 } from "@mui/material";
-import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import "./App.css";
 import { theme } from "./themes/theme-config";
 import Header from "./components/Header";
 import api from "./providers/mtg-api";
-import { useState } from "react";
-
-const schema = z.object({
-  nCardDeck: z.number(),
-  avgManaValue: z.number(),
-  deckList: z.string(),
-  deckListBool: z.boolean(),
-  nCheapDraw: z.number().int(),
-  nCheapManaRamp: z.number().int(),
-  nNonMythicLand: z.number().int(),
-  nMythicLand: z.number().int(),
-  companion: z.boolean(),
-});
-
-type FormFields = z.infer<typeof schema>;
+import {
+  formDefaultValues,
+  formSchema,
+  FormSchema,
+} from "./schemas/formSchema";
 
 function App() {
   const nCardDeckOptions = [60, 80, 99];
-  //const [totalManaCost, setTotalManaCost] = useState(0);
-
   const {
     handleSubmit,
     control,
     setValue,
     watch,
     formState: { isSubmitting },
-  } = useForm<FormFields>({
-    defaultValues: {
-      nCardDeck: 60,
-      avgManaValue: 0,
-      deckList: "",
-      deckListBool: false,
-      nCheapDraw: 0,
-      nCheapManaRamp: 0,
-      nNonMythicLand: 0,
-      nMythicLand: 0,
-      companion: false,
-    },
-    resolver: zodResolver(schema),
+  } = useForm<FormSchema>({
+    mode: "all",
+    defaultValues: formDefaultValues,
+    resolver: zodResolver(formSchema),
   });
 
   const isDecklistChecked = watch("deckListBool");
 
-  const calculateLandCount = (data: FormFields): number => {
+  const calculateLandCount = (data: FormSchema): number => {
     let landCount = 0;
 
     if (data.nCardDeck == 99) {
@@ -86,7 +65,7 @@ function App() {
     return parseFloat(landCount.toFixed(2));
   };
 
-  const onSubmit: SubmitHandler<FormFields> = async (data: FormFields) => {
+  const onSubmit: SubmitHandler<FormSchema> = async (data: FormSchema) => {
     const total = calculateLandCount(data);
     console.log("total: ", total, "\ndata: ", data);
   };
