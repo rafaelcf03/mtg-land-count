@@ -35,7 +35,6 @@
 }
 
 .main-body {
-  margin: 0 auto;
   height: auto;
   width: auto;
   border: solid 3px #7f00ff;
@@ -85,4 +84,9 @@
 
 .text-header {
   margin: 0;
+}
+
+.field-section-tooltip {
+  display: flex;
+  align-items: center;
 }
