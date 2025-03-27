@@ -1,13 +1,18 @@
 import { IconButton, Tooltip } from "@mui/material";
 import HelpOutlineIcon from "@mui/icons-material/HelpOutline";
+import "../App.css";
 
-type TooltipoProps = {
+type TooltipProps = {
   title: string;
 };
 
-function TooltipComponent({ title }: TooltipoProps) {
+function TooltipComponent({ title }: TooltipProps) {
   return (
-    <Tooltip title={title}>
+    <Tooltip
+      arrow
+      title={<p className="tooltip-text">{title}</p>}
+      placement="top"
+    >
       <IconButton>
         <HelpOutlineIcon fontSize="small" />
       </IconButton>

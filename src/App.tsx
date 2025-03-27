@@ -24,6 +24,9 @@ import {
   FormSchema,
 } from "./schemas/formSchema";
 import TooltipComponent from "./components/Tooltip";
+import translate from "./utils/dictionary";
+import HeaderLabel from "./components/HeaderLabel";
+import { useEffect } from "react";
 
 function App() {
   const nCardDeckOptions = [60, 80, 99];
@@ -42,6 +45,11 @@ function App() {
     errors;
 
   const isDecklistChecked = useWatch({ control, name: "hasDecklist" });
+  const nCardDeck = useWatch({ control, name: "nCardDeck" });
+
+  useEffect(() => {
+    // Força um re-render ao detectar mudanças no valor
+  }, [nCardDeck]);
 
   const calculateLandCount = (data: FormSchema): number => {
     let landCount = 0;
@@ -131,18 +139,22 @@ function App() {
   };
 
   return (
-    <Container className="main-body">
+    <Container disableGutters className="main-body">
       <Header />
 
       <form noValidate onSubmit={handleSubmit(onSubmit)} className="form">
         <Box className="field-section-tooltip">
+          <HeaderLabel>
+            <p className="text">Formato n-cartas</p>
+            <TooltipComponent title={translate("n-cards")} />
+          </HeaderLabel>
+
           <Controller
             control={control}
             name="nCardDeck"
             render={({ field: { onChange } }) => (
               <TextField
                 select
-                label="Formato n-cartas"
                 variant="outlined"
                 defaultValue={60}
                 onChange={(e) => {
@@ -159,43 +171,47 @@ function App() {
               </TextField>
             )}
           />
-          <TooltipComponent title="help" />
         </Box>
 
         <Box className="decklist-section">
-          <Controller
-            control={control}
-            name="avgManaValue"
-            render={({ field: { onChange, value } }) => (
-              <TextField
-                type="number"
-                label="Custo médio"
-                variant="outlined"
-                onChange={(e) => {
-                  onChange(parseFloat(e.target.value));
-                }}
-                value={value}
-              />
-            )}
-          />
-
-          <label className="decklist-label">
-            <p className="text">Decklist</p>
+          <HeaderLabel>
+            <p className="text">Custo médio</p>
+            <TooltipComponent title={translate("avg-mana-value")} />
+          </HeaderLabel>
+          <div className="decklist-section-field">
             <Controller
               control={control}
-              name="hasDecklist"
-              defaultValue={false}
+              name="avgManaValue"
               render={({ field: { onChange, value } }) => (
-                <Checkbox
-                  onChange={() => {
-                    onChange(!value);
+                <TextField
+                  type="number"
+                  variant="outlined"
+                  onChange={(e) => {
+                    onChange(parseFloat(e.target.value));
                   }}
-                  checked={value}
-                  color="violet"
+                  value={value}
                 />
               )}
             />
-          </label>
+
+            <div className="decklist-section-checkbox">
+              <p className="text">Decklist</p>
+              <Controller
+                control={control}
+                name="hasDecklist"
+                defaultValue={false}
+                render={({ field: { onChange, value } }) => (
+                  <Checkbox
+                    onChange={() => {
+                      onChange(!value);
+                    }}
+                    checked={value}
+                    color="violet"
+                  />
+                )}
+              />
+            </div>
+          </div>
         </Box>
 
         {isDecklistChecked && (
@@ -221,72 +237,97 @@ function App() {
           />
         )}
 
-        <Controller
-          control={control}
-          name="nCheapDraw"
-          render={({ field: { onChange, value } }) => (
-            <TextField
-              type="number"
-              label="Cheap draws"
-              variant="outlined"
-              onChange={(e) => {
-                onChange(parseInt(e.target.value));
-              }}
-              value={value}
-            />
-          )}
-        />
+        <Box className="field-section-tooltip">
+          <HeaderLabel>
+            <p className="text">Cheap draws</p>
+            <TooltipComponent title={translate("n-cheap-draw")} />
+          </HeaderLabel>
+          <Controller
+            control={control}
+            name="nCheapDraw"
+            render={({ field: { onChange, value } }) => (
+              <TextField
+                type="number"
+                variant="outlined"
+                onChange={(e) => {
+                  onChange(parseInt(e.target.value));
+                }}
+                value={value}
+                fullWidth
+              />
+            )}
+          />
+        </Box>
 
-        <Controller
-          control={control}
-          name="nCheapManaRamp"
-          render={({ field: { onChange, value } }) => (
-            <TextField
-              type="number"
-              label="Cheap mana ramp"
-              variant="outlined"
-              onChange={(e) => {
-                onChange(parseInt(e.target.value));
-              }}
-              value={value}
-            />
-          )}
-        />
+        <Box className="field-section-tooltip">
+          <HeaderLabel>
+            <p className="text">Cheap mana ramp</p>
+            <TooltipComponent title={translate("n-cheap-mr")} />
+          </HeaderLabel>
+          <Controller
+            control={control}
+            name="nCheapManaRamp"
+            render={({ field: { onChange, value } }) => (
+              <TextField
+                type="number"
+                variant="outlined"
+                onChange={(e) => {
+                  onChange(parseInt(e.target.value));
+                }}
+                value={value}
+                fullWidth
+              />
+            )}
+          />
+        </Box>
 
-        <Controller
-          control={control}
-          name="nNonMythicLand"
-          render={({ field: { onChange, value } }) => (
-            <TextField
-              type="number"
-              label="Modais que entram virados"
-              variant="outlined"
-              onChange={(e) => {
-                onChange(parseInt(e.target.value));
-              }}
-              value={value}
-            />
-          )}
-        />
+        <Box className="field-section-tooltip">
+          <HeaderLabel>
+            <p className="text">Modais que entram virados</p>
+            <TooltipComponent title={translate("nonMythicLand")} />
+          </HeaderLabel>
+          <Controller
+            control={control}
+            name="nNonMythicLand"
+            render={({ field: { onChange, value } }) => (
+              <TextField
+                type="number"
+                variant="outlined"
+                onChange={(e) => {
+                  onChange(parseInt(e.target.value));
+                }}
+                value={value}
+                fullWidth
+              />
+            )}
+          />
+        </Box>
 
-        <Controller
-          control={control}
-          name="nMythicLand"
-          render={({ field: { onChange, value } }) => (
-            <TextField
-              type="number"
-              label="Modais que entram desvirados"
-              variant="outlined"
-              onChange={(e) => {
-                onChange(parseInt(e.target.value));
-              }}
-              value={value}
-            />
-          )}
-        />
+        <Box className="field-section-tooltip">
+          <HeaderLabel>
+            <p className="text">Modais que entram desvirados</p>
+            <TooltipComponent title={translate("mythicLand")} />
+          </HeaderLabel>
+          <Controller
+            control={control}
+            name="nMythicLand"
+            render={({ field: { onChange, value } }) => (
+              <TextField
+                type="number"
+                variant="outlined"
+                onChange={(e) => {
+                  onChange(parseInt(e.target.value));
+                }}
+                value={value}
+                fullWidth
+              />
+            )}
+          />
+        </Box>
 
-        <label className="switch-label">
+        <HeaderLabel>
           <p className="text">Companion</p>
+          <TooltipComponent title={translate("companion")} />
           <Controller
             control={control}
             name="companion"
@@ -302,7 +343,7 @@ function App() {
               />
             )}
           />
-        </label>
+        </HeaderLabel>
 
         <Button
           type="submit"
