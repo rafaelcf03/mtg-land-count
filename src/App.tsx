@@ -13,6 +13,7 @@ import {
   MenuItem,
   Switch,
   TextField,
+  Typography,
 } from "@mui/material";
 import { zodResolver } from "@hookform/resolvers/zod";
 import "./App.css";
@@ -26,9 +27,11 @@ import {
 import TooltipComponent from "./components/Tooltip";
 import translate from "./utils/dictionary";
 import HeaderLabel from "./components/HeaderLabel";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
+import FormFooter from "./components/FormFooter";
 
 function App() {
+  const [totalLands, setTotalLands] = useState<number>(0);
   const nCardDeckOptions = [60, 80, 99];
   const {
     handleSubmit,
@@ -83,6 +86,7 @@ function App() {
 
   const onSubmit: SubmitHandler<FormSchema> = async (data: FormSchema) => {
     const total = calculateLandCount(data);
+    setTotalLands(total);
     console.log("terrenos necessários: ", total, "\ndata: ", data);
   };
 
@@ -355,6 +359,7 @@ function App() {
           Enviar
         </Button>
       </form>
+      {totalLands > 0 && <FormFooter total={totalLands} />}
     </Container>
   );
 }

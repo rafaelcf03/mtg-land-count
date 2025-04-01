@@ -31,5 +31,6 @@ export const dictionary: { [lang: string]: { [key: string]: string } } = {
     mythicLand:
       "Quantidade de cartas modais dupla face que sempre vão entrar viradas.",
     companion: "Se o seu deck utiliza a mecânica de Companheiro",
+    info: "Este é um valor aproximado. A quantidade real pode variar para mais ou para menos. Jogue e vá adaptando conforme necessário.",
   },
 };
